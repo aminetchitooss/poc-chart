@@ -5,6 +5,7 @@ import App from './App';
 import ErrorPage from './routes/error-page';
 import RechartsExample from './routes/RechartsExample/RechartsExample';
 import './index.scss';
+import ChartJsExample from './routes/ChartJsExample/ChartJsExample';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
       {
         path: '/recharts',
         element: <RechartsExample />
+      },
+      {
+        path: '/chartjs',
+        element: <ChartJsExample />
       }
     ]
   }
