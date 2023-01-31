@@ -1,12 +1,12 @@
 import { TooltipProps } from 'recharts';
 import './CustomTooltip.scss';
 
-export const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+export const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
     // debugger;
     return (
       <div className="tooltip">
-        <p className="tooltip__label">{`${label} : ${payload[0].value}`}</p>
+        <p className="tooltip__label">{payload[0].payload.toolTipLabel}</p>
         {payload &&
           payload.map((data, index) => (
             <div className="tooltip__data" style={{ color: data.color }} key={index.toString()}>

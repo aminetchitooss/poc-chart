@@ -1,6 +1,5 @@
 import './App.scss';
-import { Link, Outlet } from 'react-router-dom';
-import { CustomTooltip } from './components/CustomTooltip/CustomTooltip';
+import { NavLink, Outlet } from 'react-router-dom';
 
 function App() {
   return (
@@ -8,23 +7,19 @@ function App() {
       <nav id="sidebar">
         <ul>
           <li>
-            <Link to={`recharts`}>Recharts exmaple</Link>
+            <NavLink to={`recharts`} className={({ isActive }) => (isActive ? 'active' : '')}>
+              Recharts exmaple
+            </NavLink>
           </li>
           <li>
-            <Link to={`/chartjs`}>ChartJs example</Link>
+            <NavLink to={`/chartjs`} className={({ isActive }) => (isActive ? 'active' : '')}>
+              ChartJs example
+            </NavLink>
           </li>
         </ul>
       </nav>
       <div id="content">
-        {/* <Outlet /> */}
-        <CustomTooltip
-          active={true}
-          label="Page A"
-          payload={[
-            { value: 9, color: 'darkred' },
-            { value: 50, color: 'dodgerblue' }
-          ]}
-        />
+        <Outlet />
       </div>
     </>
   );

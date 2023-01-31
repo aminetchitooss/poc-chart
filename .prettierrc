@@ -5,7 +5,7 @@
   "endOfLine": "lf",
   "tabWidth": 2,
   "trailingComma": "none",
-  "printWidth": 180,
+  "printWidth": 150,
   "semi": true,
   "htmlWhitespaceSensitivity": "ignore",
   "bracketSameLine": true

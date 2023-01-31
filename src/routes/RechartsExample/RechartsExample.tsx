@@ -1,53 +1,50 @@
 import { AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Area } from 'recharts';
 import { CustomTooltip } from '../../components/CustomTooltip/CustomTooltip';
 import './RechartsExample.scss';
-
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const data = [
   {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400
+    date: '2022-01-01T04:00:00Z',
+    offer: 0,
+    vehicle: 50
   },
   {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210
+    date: '2022-02-01T04:00:00Z',
+    offer: 20,
+    vehicle: 33
   },
   {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290
+    date: '2022-03-01T04:00:00Z',
+    offer: 20,
+    vehicle: 80
   },
   {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000
+    date: '2022-04-01T04:00:00Z',
+    offer: 57,
+    vehicle: 39
   },
   {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181
+    date: '2022-05-01T04:00:00Z',
+    offer: 38,
+    vehicle: 48
   },
   {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100
+    date: '2022-06-01T04:00:00Z',
+    offer: 83,
+    vehicle: 58
   }
 ];
 
-enum CHART_COLORS {
+export const transformedData = data.map(d => {
+  const [year, month, day] = d.date.split('T')[0].split('-');
+  return {
+    ...d,
+    toolTipLabel: `${day} ${monthNames[Number(month)]} ${year}`,
+    name: `${monthNames[Number(month) - 1]?.substring(0, 3)} ${year?.substring(2, 4)}`
+  };
+});
+
+export enum CHART_COLORS {
   firstLineColor = '#0BCBFB',
   secondLineColor = '#644AF3',
   GridLine = '#EDF2F8',
@@ -63,25 +60,23 @@ const AxisStyle = {
 export default function RechartsExample() {
   return (
     <>
-      <h1>second</h1>
-
-      <AreaChart width={730} height={250} data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+      <AreaChart width={730} height={340} data={transformedData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
         <defs>
-          {/* <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor={CHART_COLORS.firstColor} stopOpacity={0.8} />
-            <stop offset="95%" stopColor={CHART_COLORS.firstColor} stopOpacity={0} />
-          </linearGradient> */}
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="firstColor" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="50%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0.8} />
+            <stop offset="100%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0} />
+          </linearGradient>
+          <linearGradient id="secondColor" x1="0" y1="0" x2="0" y2="1">
             <stop offset="50%" stopColor={CHART_COLORS.secondLineColor} stopOpacity={0.8} />
             <stop offset="100%" stopColor={CHART_COLORS.secondLineColor} stopOpacity={0} />
           </linearGradient>
         </defs>
         <XAxis tick={AxisStyle} dataKey="name" />
-        <YAxis tick={AxisStyle} />
+        <YAxis tickCount={10} tick={AxisStyle} />
         <CartesianGrid stroke={CHART_COLORS.GridLine} strokeWidth={2} />
         <Tooltip content={<CustomTooltip />} />
-        {/* <Area type="monotone" dataKey="uv" stroke={CHART_COLORS.firstColor} fillOpacity={0.2} fill="url(#colorUv)" /> */}
-        <Area type="monotone" dataKey="pv" strokeWidth={2} stroke={CHART_COLORS.secondLineColor} fillOpacity={0.2} fill="url(#colorPv)" />
+        <Area type="monotone" dataKey="offer" strokeWidth={2} stroke={CHART_COLORS.firstLineColor} fillOpacity={0.2} fill="url(#firstColor)" />
+        <Area type="monotone" dataKey="vehicle" strokeWidth={2} stroke={CHART_COLORS.secondLineColor} fillOpacity={0.2} fill="url(#secondColor)" />
       </AreaChart>
     </>
   );
