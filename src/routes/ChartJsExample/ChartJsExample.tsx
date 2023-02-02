@@ -19,27 +19,20 @@ export const options = {
   }
 };
 
-const labels = transformedData.map(d => d.name);
-
-// ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-const values = transformedData.map(d => d.offer);
-const values2 = transformedData.map(d => d.vehicle);
-// [120, 300, 50, 400, 700, 600, 850];
-
 export const data = {
-  labels,
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
     {
       fill: true,
-      label: 'Dataset 1',
-      data: values,
+      label: 'Offer',
+      data: [0, 20, 20, 57, 38, 83],
       borderColor: CHART_COLORS.firstLineColor,
       backgroundColor: CHART_COLORS.firstLineColor
     },
     {
       fill: true,
-      label: 'Dataset 2',
-      data: values2,
+      label: 'Vehicle 2',
+      data: [50, 33, 80, 39, 48, 58],
       borderColor: CHART_COLORS.secondLineColor,
       backgroundColor: CHART_COLORS.secondLineColor
     }

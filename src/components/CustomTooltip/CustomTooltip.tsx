@@ -1,12 +1,13 @@
+import { format, parseISO } from 'date-fns';
 import { TooltipProps } from 'recharts';
 import './CustomTooltip.scss';
 
-export const CustomTooltip = ({ active, payload }: TooltipProps<number, string>) => {
+export const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
     // debugger;
     return (
       <div className="tooltip">
-        <p className="tooltip__label">{payload[0].payload.toolTipLabel}</p>
+        <p className="tooltip__label">{format(parseISO(label), 'eeee, d MMM, yyyy')}</p>
         {payload &&
           payload.map((data, index) => (
             <div className="tooltip__data" style={{ color: data.color }} key={index.toString()}>
