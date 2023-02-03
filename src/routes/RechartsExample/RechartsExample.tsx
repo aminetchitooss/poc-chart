@@ -7,7 +7,15 @@ const data = [
   { date: '2022-01-01T04:00:00Z', offer: 0, vehicle: 50 },
   { date: '2022-02-01T04:00:00Z', offer: 20, vehicle: 33 },
   { date: '2022-03-01T04:00:00Z', offer: 20, vehicle: 80 },
-  { date: '2022-04-01T04:00:00Z', offer: 83, vehicle: 58 }
+  { date: '2022-04-01T04:00:00Z', offer: 83, vehicle: 58 },
+  { date: '2022-05-01T04:00:00Z', offer: 83, vehicle: 58 },
+  { date: '2022-06-01T04:00:00Z', offer: 83, vehicle: 58 },
+  { date: '2022-07-01T04:00:00Z', offer: 83, vehicle: 58 },
+  { date: '2022-08-01T04:00:00Z', offer: 23, vehicle: 88 },
+  { date: '2022-09-01T04:00:00Z', offer: 33, vehicle: 58 },
+  { date: '2022-10-01T04:00:00Z', offer: 93, vehicle: 68 },
+  { date: '2022-11-01T04:00:00Z', offer: 13, vehicle: 78 },
+  { date: '2022-12-01T04:00:00Z', offer: 23, vehicle: 28 }
 ];
 
 function trasnformIt(data: any) {
@@ -31,7 +39,7 @@ const AxisStyle = {
   fill: CHART_COLORS.AxisText,
   fontStyle: 'normal',
   fontWeight: 600,
-  fontSize: '14px'
+  fontSize: '13px'
 };
 
 export default function RechartsExample() {
@@ -64,11 +72,11 @@ export default function RechartsExample() {
 
   return (
     <>
-      <button onClick={() => changeView('Daily')}>Daily</button>
+      {/* <button onClick={() => changeView('Daily')}>Daily</button>
       <button onClick={() => changeView('Weekly')}>Weekly</button>
-      <button onClick={() => changeView('Monthly')}>Monthly</button>
+      <button onClick={() => changeView('Monthly')}>Monthly</button> */}
 
-      <AreaChart width={700} height={380} data={graphData}>
+      <AreaChart width={900} height={380} data={graphData}>
         <defs>
           <linearGradient id="firstColor" x1="0" y1="0" x2="0" y2="1">
             <stop offset="50%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0.8} />
@@ -80,10 +88,10 @@ export default function RechartsExample() {
           </linearGradient>
         </defs>
 
-        <XAxis tick={AxisStyle} dataKey="name" ticks={['Jan 22', 'Mar 22', 'Apr 22']} />
+        <XAxis tickLine={false} tick={AxisStyle} dataKey="name" />
         <YAxis tickCount={10} tick={AxisStyle} />
 
-        <CartesianGrid stroke={CHART_COLORS.GridLine} strokeWidth={2} verticalPoints={['50%'] as any} />
+        <CartesianGrid stroke={CHART_COLORS.GridLine} strokeWidth={2} />
         <Tooltip content={<CustomTooltip />} />
 
         <Area type="monotone" dataKey="offer" strokeWidth={2} stroke={CHART_COLORS.firstLineColor} fillOpacity={0.2} fill="url(#firstColor)" />

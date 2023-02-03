@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -21,6 +21,7 @@
   box-sizing: border-box;
   box-sizing: inherit;
   outline: none;
+  font-family: 'Montserrat', sans-serif;
 }
 *:active,
 *:focus,
@@ -44,7 +45,7 @@ body {
 // @media (prefers-color-scheme: light) {
 :root {
   color: #213547;
-  background-color: #ffffff;
+  background-color: #f4f6fe;
 }
 a:hover {
   color: #747bff;
@@ -64,4 +65,13 @@ button {
 
 p {
   margin: 0;
+}
+.logo {
+  font-family: 'Gochi Hand', cursive;
+}
+
+@media screen and (max-width: 700px) {
+  :root {
+    background-color: #fff;
+  }
 }
