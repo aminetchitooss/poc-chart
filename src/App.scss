@@ -1,90 +1,165 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box !important;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.traderDash {
+  background-color: dodgerblue;
+  min-height: 100dvh;
+}
+
 .container {
-  // padding: 1rem;
-  padding-left: 0;
-  display: flex;
-  align-items: flex-start;
-  height: 100%;
-  overflow: hidden;
-  width: 100%;
+  max-width: 1095px;
+  margin: 0 auto;
 }
-.form {
-  display: inline-block;
+
+.filterFrame {
+  background-color: white;
+  padding-block: 2rem;
 }
-input {
-  display: block;
-}
-button {
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-left: 1rem;
-  &:active {
-    background-color: hsl(0, 0%, 88%);
-  }
-  border-width: 1px;
-  display: inline-block;
-}
-.frame {
-  margin-inline: auto;
+
+.chartFrame {
+  background-color: white;
+  border-radius: 16px;
   margin-top: 2rem;
-  width: 100%;
-  max-width: 1000px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background-color: white;
   padding: 2rem;
-  border-radius: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
-nav {
-  background-color: white;
-  padding: 1rem;
-  height: 100dvh;
-  position: relative;
+
+// --------------------chart --------------------------
+
+.legendText {
+  order: 1;
+  width: calc(100% - 550px);
+  flex-grow: 1;
+  margin: 0;
+  align-self: center;
 }
-h1 {
-  margin-top: 1rem;
-  margin-bottom: 4rem;
-  font-size: 45px;
-}
-@media screen and (max-width: 700px) {
-  .container {
-    padding: 0.25rem;
-  }
-  .frame {
-    padding: 0rem;
-  }
-  .desktop {
-    display: none;
-  }
-}
-img {
-  height: 24px;
-  aspect-ratio: 1;
-}
-.link {
-  padding: 1rem 0;
-  text-align: center;
-  &.logout {
-    padding-top: 4rem;
-    position: absolute;
-    bottom: 4rem;
-    left: 2rem;
+
+.legendFrame {
+  display: flex;
+  gap: 1rem;
+  align-self: center;
+  order: 2;
+  $dotSize: 10px;
+
+  .tooltip {
+    background: #fff;
+    box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 130px;
+
+    &__label {
+      margin-bottom: 0.5rem;
+    }
+
+    &__data {
+      position: relative;
+      padding-inline: 1.25rem;
+      line-height: 1;
+      display: inline-block;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 1rem;
+
+      &::before {
+        position: absolute;
+        left: 0;
+        top: calc(0.5rem - $dotSize / 2);
+        content: '';
+        height: $dotSize;
+        aspect-ratio: 1;
+        background-color: currentColor;
+        border-radius: 50%;
+      }
+    }
   }
 }
 
-// .#4e57aa
-.content {
-  padding: 1rem;
-  overflow-y: auto;
-  height: 100dvh;
-  width: 100%;
+.scaleFrame {
+  color: #050b7f;
+  padding: 10px 1rem;
+  border-color: transparent;
+  border-right: 1rem solid transparent;
+  background-color: white;
+  justify-self: flex-end;
+  order: 3;
+  box-shadow: 0px 0px 0px 2px #050b7f;
+  border-radius: 16px;
+  font-weight: bold;
+  font-size: 14px;
 }
-.player {
-  width: 100%;
-  margin-bottom: 4rem;
-  video {
+
+.ParamsFrame {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  order: 4;
+
+  button {
+    color: black;
+    padding: 2rem 10px;
+    text-align: left;
+    width: 210px;
+  }
+}
+
+.chart {
+  min-height: 334px;
+  background-color: #3b3b3b;
+  flex-grow: 1;
+  order: 5;
+}
+
+@media screen and (max-width: 920px) {
+  .chartFrame {
+    gap: 1rem;
+  }
+  .legendText {
     width: 100%;
+  }
+  .ParamsFrame {
+    order: 2;
+    flex-direction: row;
+    flex-grow: 1;
+    width: calc(100% - 320px);
+    overflow-x: auto;
+  }
+  .chart {
+    order: 4;
+    width: 100%;
+  }
+  .legendFrame {
+    order: 5;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .chartFrame {
+    gap: 2rem;
+  }
+  .legendText {
+    width: calc(100% - 200px);
+    flex-grow: 1;
+  }
+  .ParamsFrame {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .scaleFrame {
+    order: 2;
+  }
+  .chart {
+    order: 4;
+    width: 100%;
+  }
+  .legendFrame {
+    order: 5;
   }
 }
