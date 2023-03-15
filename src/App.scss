@@ -35,17 +35,17 @@
 .scaleFrame {
   color: #050b7f;
   padding: 10px 1rem;
-  border-color: transparent;
-  border-right: 1rem solid transparent;
-  background-color: white;
   justify-self: flex-end;
-  order: 3;
-  box-shadow: 0px 0px 0px 2px #050b7f;
+  width: 120px;
   border-radius: 16px;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 140%;
+  border: 2px solid transparent;
+  &.closed {
+    border-color: #050b7f;
+  }
 }
 
 .ParamsFrame {
@@ -165,7 +165,7 @@
       line-height: 29px;
     }
   }
-  .scaleFrame {
+  .scale {
     order: 2;
   }
   .chart {
@@ -209,4 +209,38 @@ $dotSize: 11px;
       border-radius: 50%;
     }
   }
+}
+
+.scale {
+  position: relative;
+  order: 3;
+  cursor: pointer;
+}
+.scaleList {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  top: 0;
+  border: 2px solid #050b7f;
+  border-radius: 16px;
+
+  span {
+    background-color: white;
+    padding: 10px;
+    border-bottom: 1px solid #444d58;
+    font-size: 13px;
+
+    &:last-child {
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+    }
+  }
+}
+
+.emptySpan {
+  height: 41px;
+  width: 100%;
+  background-color: transparent !important;
 }
