@@ -35,7 +35,10 @@ export default class Scale extends React.Component<ScaleProps, ScaleState> {
   render() {
     return (
       <div className="scale" onClick={() => this.toggleScale()}>
-        <div className={this.state.isOpen ? 'scaleFrame' : 'closed scaleFrame'}>{this.state.value}</div>
+        <div className={this.state.isOpen ? 'scaleFrame' : 'closed scaleFrame'}>
+          <span>{this.state.value}</span>
+          <span>&lsaquo;</span>
+        </div>
         {this.state.isOpen && (
           <div className="scaleList">
             <span className="emptySpan"></span>
