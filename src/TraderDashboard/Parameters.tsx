@@ -1,6 +1,15 @@
 import * as React from 'react';
 
+export interface ParametersData {
+  id: number;
+  label: string;
+  value: number;
+  isActive?: boolean;
+  color?: string;
+}
+
 interface ParametersProps {
+  data: ParametersData[];
   chooseParam: (_id: number) => void;
 }
 export default class Parameters extends React.Component<ParametersProps, any> {
@@ -8,18 +17,36 @@ export default class Parameters extends React.Component<ParametersProps, any> {
     super(props);
   }
 
-  select(id: number) {
-    console.log('oiiii');
+  selectParam(id: number) {
     this.props.chooseParam(id);
   }
+
+  render() {
+    return <div className="ParamsFrame">{this.props.data && this.props.data.map((item, i) => <ParameterCard key={i} data={item} />)}</div>;
+  }
+}
+
+interface ParameterCardProps {
+  data: ParametersData;
+}
+interface ParameterCardState {
+  isActive: boolean;
+}
+
+class ParameterCard extends React.Component<ParameterCardProps, ParameterCardState> {
+  constructor(props: ParameterCardProps) {
+    super(props);
+    this.state = {
+      isActive: !!props.data.isActive
+    };
+  }
+
   render() {
     return (
-      <div className="ParamsFrame">
-        <button onClick={() => this.select(1)}>Choose 1</button>
-        <button onClick={() => this.select(2)}>Choose 2</button>
-        <button onClick={() => this.select(3)}>Choose 3</button>
-        <button onClick={() => this.select(4)}>Choose 4</button>
-      </div>
+      <article className={this.state.isActive ? 'active' : undefined}>
+        <h3>{this.props.data.label}</h3>
+        <p style={{ color: this.props.data.color }}>{this.props.data.value}</p>
+      </article>
     );
   }
 }

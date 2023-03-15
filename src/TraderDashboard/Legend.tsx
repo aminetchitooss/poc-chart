@@ -1,12 +1,10 @@
 import * as React from 'react';
+import { ParametersData } from './Parameters';
+
+export type LegendData = Omit<ParametersData, 'isActive' | 'value' | 'id'>;
 
 interface LegendProps {
   data: LegendData[];
-}
-
-export interface LegendData {
-  label: string;
-  color: string;
 }
 
 export default class Legend extends React.Component<LegendProps, any> {

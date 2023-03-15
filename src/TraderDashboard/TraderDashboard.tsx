@@ -2,7 +2,7 @@ import * as React from 'react';
 import Chart from './Chart/Chart';
 import Filter from './Filters';
 import Legend, { LegendData } from './Legend';
-import Parameters from './Parameters';
+import Parameters, { ParametersData } from './Parameters';
 import Scale, { SCALE_CHOICE } from './Scale';
 
 interface TraderDashboardState {
@@ -10,28 +10,31 @@ interface TraderDashboardState {
 }
 
 export default class TraderDashboard extends React.Component<any, TraderDashboardState> {
+  data: ParametersData[] = [
+    { id: 1, label: 'Vehicles lost', value: 137, isActive: true, color: '#0BCBFB' },
+    { id: 2, label: 'Vehicles awarded', value: 47, isActive: true, color: '#644AF3' },
+    { id: 3, label: 'Vehicles offered', value: 184 },
+    { id: 4, label: 'Offers sent', value: 259 }
+  ];
   constructor() {
     super(undefined);
     this.state = {
-      legendData: [
-        { label: 'Vehicles lost', color: '#644AF3' },
-        { label: 'Vehicles awarded', color: '#0BCBFB' }
-      ]
+      legendData: this.data.filter(d => d.isActive)
     };
   }
 
   componentDidMount(): void {}
 
   getDataByParam(id: number) {
-    console.log('Parent', id);
+    console.log('Root', id);
   }
 
   selectScale(scale: SCALE_CHOICE) {
-    console.log('Parent scale', scale);
+    console.log('Root scale', scale);
   }
 
   chooseFilter(id: number) {
-    console.log('Parent Filter', id);
+    console.log('Root Filter', id);
   }
 
   render() {
@@ -42,7 +45,7 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
           <h3 className="legendText">{this.state.legendData.map(d => d.label).join(' - ')} </h3>
           <Legend data={this.state.legendData} />
           <Scale selectScale={this.selectScale} />
-          <Parameters chooseParam={this.getDataByParam} />
+          <Parameters data={this.data} chooseParam={this.getDataByParam} />
           <Chart />
         </div>
       </div>

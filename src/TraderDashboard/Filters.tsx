@@ -9,7 +9,6 @@ export default class Filter extends React.Component<FilterProps, any> {
   }
 
   selectFilter() {
-    console.log('oiiii');
     this.props.chooseFilter(1);
   }
   render() {
