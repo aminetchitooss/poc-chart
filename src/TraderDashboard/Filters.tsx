@@ -15,7 +15,9 @@ export default class Filter extends React.Component<FilterProps, any> {
     return (
       <div className="filterFrame">
         <div className="container">
-          <button onClick={() => this.selectFilter()}>Filter</button>
+          <div className="filterFrame__sub" onClick={() => this.selectFilter()}>
+            ----- Filter area -----
+          </div>
         </div>
       </div>
     );

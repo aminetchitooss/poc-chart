@@ -39,9 +39,15 @@ export default class Scale extends React.Component<ScaleProps, ScaleState> {
         {this.state.isOpen && (
           <div className="scaleList">
             <span className="emptySpan"></span>
-            <span onClick={() => this.changeScale(SCALE_CHOICE.MONTHLY)}>{SCALE_CHOICE.MONTHLY}</span>
-            <span onClick={() => this.changeScale(SCALE_CHOICE.WEEKLY)}>{SCALE_CHOICE.WEEKLY}</span>
-            <span onClick={() => this.changeScale(SCALE_CHOICE.DAILY)}>{SCALE_CHOICE.DAILY}</span>
+            <span className={this.state.value == SCALE_CHOICE.MONTHLY ? 'active' : undefined} onClick={() => this.changeScale(SCALE_CHOICE.MONTHLY)}>
+              {SCALE_CHOICE.MONTHLY}
+            </span>
+            <span className={this.state.value == SCALE_CHOICE.WEEKLY ? 'active' : undefined} onClick={() => this.changeScale(SCALE_CHOICE.WEEKLY)}>
+              {SCALE_CHOICE.WEEKLY}
+            </span>
+            <span className={this.state.value == SCALE_CHOICE.DAILY ? 'active' : undefined} onClick={() => this.changeScale(SCALE_CHOICE.DAILY)}>
+              {SCALE_CHOICE.DAILY}
+            </span>
           </div>
         )}
       </div>

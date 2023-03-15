@@ -1,6 +1,11 @@
 .filterFrame {
   background-color: white;
   padding-block: 2rem;
+
+  &__sub {
+    margin: 0 auto;
+    text-align: center;
+  }
 }
 
 .chartFrame {
@@ -231,10 +236,19 @@ $dotSize: 11px;
     padding: 10px;
     border-bottom: 1px solid #444d58;
     font-size: 13px;
+    color: #373e47;
+    cursor: pointer;
 
     &:last-child {
       border-bottom-left-radius: 14px;
       border-bottom-right-radius: 14px;
+    }
+
+    &.active,
+    &:hover {
+      background-color: #e6e6e6;
+      color: black;
+      font-weight: bold;
     }
   }
 }
