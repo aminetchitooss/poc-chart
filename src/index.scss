@@ -75,3 +75,20 @@ p {
     background-color: #fff;
   }
 }
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box !important;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.traderDash {
+  background-color: dodgerblue;
+  min-height: 100dvh;
+}
+
+.container {
+  max-width: 1095px;
+  margin: 0 auto;
+}
