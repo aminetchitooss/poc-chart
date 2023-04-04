@@ -17,7 +17,7 @@ export default class Legend extends React.Component<LegendProps, any> {
       <div className="legendFrame">
         {this.props.data &&
           this.props.data.map((d, index) => (
-            <div className="tooltip__data" style={{ color: d.color }} key={index.toString()}>
+            <div className="customTooltip__data" style={{ color: d.color }} key={index.toString()}>
               {d.label}
             </div>
           ))}

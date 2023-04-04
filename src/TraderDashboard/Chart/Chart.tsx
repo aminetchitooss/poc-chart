@@ -100,11 +100,11 @@ export default class Chart extends React.Component<DashboardProps, DashboardStat
 function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
   if (active && payload && payload.length) {
     return (
-      <div className="tooltip">
-        <p className="tooltip__label">{format(parseISO(label), 'd, MMMM yyyy')}</p>
+      <div className="customTooltip">
+        <p className="customTooltip__label">{format(parseISO(label), 'd, MMMM yyyy')}</p>
         {payload &&
           payload.map((data, index) => (
-            <div className="tooltip__data" style={{ color: data.color }} key={index.toString()}>
+            <div className="customTooltip__data" style={{ color: data.color }} key={index.toString()}>
               {data.value}
             </div>
           ))}

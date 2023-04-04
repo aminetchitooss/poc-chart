@@ -195,12 +195,14 @@
 }
 $dotSize: 11px;
 
-.tooltip {
-  background: #fff;
+.customTooltip {
+  background-color: #fff;
   box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 1rem;
   max-width: 200px;
+  position: relative;
+  z-index: 9;
 
   &__label {
     margin-bottom: 0.5rem;
