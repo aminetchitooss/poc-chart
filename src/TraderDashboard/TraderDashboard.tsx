@@ -4,6 +4,7 @@ import Filter from './Filters';
 import Legend, { LegendData } from './Legend';
 import Parameters, { ParametersData } from './Parameters';
 import Scale, { SCALE_CHOICE } from './Scale';
+import { getReporting } from '../services/ReportingService';
 
 interface TraderDashboardState {
   legendData: LegendData[];
@@ -23,7 +24,10 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
     };
   }
 
-  componentDidMount(): void {}
+  async componentDidMount(): Promise<void> {
+    const data = await getReporting();
+    console.log(data);
+  }
 
   getDataByParam(id: number) {
     console.log('Root', id);
