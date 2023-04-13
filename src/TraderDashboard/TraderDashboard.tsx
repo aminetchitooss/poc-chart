@@ -7,6 +7,7 @@ import Scale, { SCALE_CHOICE } from './Scale';
 import { CartMesure, getReporting } from '../services/ReportingService';
 
 interface TraderDashboardState {
+  reportingData: CartMesure | null;
   legendData: LegendData[];
   chartData: ChartData[];
   paramData: ParametersData[];
@@ -17,6 +18,7 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
   constructor() {
     super(undefined);
     this.state = {
+      reportingData: null,
       legendData: [],
       chartData: [],
       paramData: [],
@@ -26,14 +28,15 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
 
   async componentDidMount(): Promise<void> {
     const data = await getReporting();
-    this.setChartData(data, ParameterKeys.BIDS, ParameterKeys.LOT_BIDDED);
+    this.setState({ reportingData: data });
+    this.setChartData(data, ParameterKeys.ORDERS_LOST, ParameterKeys.ORDERS_WON);
   }
 
-  setChartData(data: CartMesure, primaryParameter: ParameterKeys, secondaryParameter?: ParameterKeys) {
+  setChartData(reportingData: CartMesure, primaryParameter: ParameterKeys, secondaryParameter?: ParameterKeys) {
     const paramData = defaultParameters
       .map(d => ({
         ...d,
-        value: data[d.key].reduce((a, c) => a + c.value, 0),
+        value: reportingData[d.key].reduce((a, c) => a + c.value, 0),
         isActive: false,
         color: undefined
       }))
@@ -46,8 +49,8 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
         return d;
       });
 
-    let chartData: ChartData[] = data[primaryParameter].map(d => ({ date: d.date, primary: d.value, secondary: 0 }));
-    if (!!secondaryParameter) chartData = chartData.map((d, index) => ({ ...d, secondary: data[secondaryParameter][index].value }));
+    let chartData: ChartData[] = reportingData[primaryParameter].map(d => ({ date: d.date, primary: d.value, secondary: 0 }));
+    if (!!secondaryParameter) chartData = chartData.map((d, index) => ({ ...d, secondary: reportingData[secondaryParameter][index].value }));
 
     console.log(chartData);
     this.setState({

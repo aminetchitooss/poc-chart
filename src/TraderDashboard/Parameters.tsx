@@ -42,21 +42,16 @@ export default class Parameters extends React.Component<ParametersProps, any> {
 interface ParameterCardProps {
   data: ParametersData;
 }
-interface ParameterCardState {
-  isActive: boolean;
-}
+interface ParameterCardState {}
 
 class ParameterCard extends React.Component<ParameterCardProps, ParameterCardState> {
   constructor(props: ParameterCardProps) {
     super(props);
-    this.state = {
-      isActive: !!props.data.isActive
-    };
   }
 
   render() {
     return (
-      <article className={this.state.isActive ? 'active' : undefined}>
+      <article className={this.props.data.isActive ? 'active' : undefined}>
         <h3>{this.props.data.label}</h3>
         <p style={{ color: this.props.data.color }}>{this.props.data.value}</p>
       </article>

@@ -35,6 +35,8 @@
   gap: 1rem;
   align-self: center;
   order: 2;
+  min-width: 240px;
+  justify-content: flex-end;
 }
 
 .scaleFrame {
@@ -197,6 +199,7 @@
   }
   .legendFrame {
     order: 5;
+    justify-content: flex-start;
   }
 }
 $dotSize: 11px;
