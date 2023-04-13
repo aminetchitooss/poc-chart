@@ -111,7 +111,13 @@
   order: 5;
   width: calc(100% - 250px);
 }
-
+.loadingChart {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media screen and (max-width: 920px) {
   .chartFrame {
     gap: 1rem;

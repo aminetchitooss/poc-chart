@@ -17,81 +17,86 @@ const AxisStyle = {
   fontSize: '14px'
 };
 
-const graphData = [
-  { date: '2022-01-01T04:00:00Z', offer: 0, vehicle: 50 },
-  { date: '2022-02-01T04:00:00Z', offer: 20, vehicle: 33 },
-  { date: '2022-03-01T04:00:00Z', offer: 40, vehicle: 80 },
-  { date: '2022-04-01T04:00:00Z', offer: 53, vehicle: 58 },
-  { date: '2022-05-01T04:00:00Z', offer: 63, vehicle: 18 },
-  { date: '2022-06-01T04:00:00Z', offer: 53, vehicle: 28 },
-  { date: '2022-07-01T04:00:00Z', offer: 63, vehicle: 38 },
-  { date: '2022-08-01T04:00:00Z', offer: 43, vehicle: 88 },
-  { date: '2022-09-01T04:00:00Z', offer: 53, vehicle: 58 },
-  { date: '2022-10-01T04:00:00Z', offer: 63, vehicle: 68 },
-  { date: '2022-11-01T04:00:00Z', offer: 53, vehicle: 78 },
-  { date: '2022-12-01T04:00:00Z', offer: 55, vehicle: 28 }
-];
+interface DashboardProps {
+  data: ChartData[];
+  isPrimaryOnly: boolean;
+}
 
-interface DashboardProps {}
 interface DashboardState {}
+
+export interface ChartData {
+  date: string;
+  primary: number;
+  secondary: number;
+}
 export default class Chart extends React.Component<DashboardProps, DashboardState> {
   constructor(props: DashboardProps) {
     super(props);
-    this.state = {};
+    this.state = {
+      data: this.props.data
+    };
   }
 
   render() {
     return (
       <div className="chart">
-        <ResponsiveContainer width="100%" height={370}>
-          <AreaChart data={graphData} margin={{ top: 0, left: -30, right: 0, bottom: 0 }}>
-            <defs>
-              <linearGradient id="firstColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="50%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0.8} />
-                <stop offset="100%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="secondColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="50%" stopColor={CHART_COLORS.secondLineColor} stopOpacity={0.8} />
-                <stop offset="100%" stopColor={CHART_COLORS.secondLineColor} stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid stroke={CHART_COLORS.GridLine} strokeWidth={2} />
+        {this.props.data.length > 0 ? (
+          <ResponsiveContainer width="100%" height={370}>
+            <AreaChart data={this.props.data} margin={{ top: 0, left: -30, right: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="firstColor" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="50%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0.8} />
+                  <stop offset="100%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0} />
+                </linearGradient>
+                {!this.props.isPrimaryOnly && (
+                  <linearGradient id="secondColor" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="50%" stopColor={CHART_COLORS.secondLineColor} stopOpacity={0.8} />
+                    <stop offset="100%" stopColor={CHART_COLORS.secondLineColor} stopOpacity={0} />
+                  </linearGradient>
+                )}
+              </defs>
+              <CartesianGrid stroke={CHART_COLORS.GridLine} strokeWidth={2} />
 
-            <YAxis tick={AxisStyle} />
+              <YAxis tick={AxisStyle} />
 
-            <XAxis
-              tick={AxisStyle}
-              dataKey="date"
-              tickLine={false}
-              axisLine={true}
-              tickFormatter={str => {
-                const date = new Date(str);
-                return format(date, 'MMM');
-              }}
-            />
+              <XAxis
+                tick={AxisStyle}
+                dataKey="date"
+                tickLine={false}
+                axisLine={true}
+                tickFormatter={str => {
+                  const date = new Date(str);
+                  return format(date, 'MMM');
+                }}
+              />
 
-            {/* <Tooltip /> */}
-            <Tooltip cursor={{ stroke: '#444D58', strokeWidth: 2 }} content={<CustomTooltip />} />
-            <Area
-              type="monotone"
-              dataKey="offer"
-              strokeWidth={2}
-              stroke={CHART_COLORS.firstLineColor}
-              fillOpacity={0.2}
-              fill="url(#firstColor)"
-              activeDot={{ r: 7 }}
-            />
-            <Area
-              type="monotone"
-              dataKey="vehicle"
-              strokeWidth={2}
-              stroke={CHART_COLORS.secondLineColor}
-              fillOpacity={0.2}
-              fill="url(#secondColor)"
-              activeDot={{ r: 7 }}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+              {/* <Tooltip /> */}
+              <Tooltip cursor={{ stroke: '#444D58', strokeWidth: 2 }} content={<CustomTooltip />} />
+              <Area
+                type="monotone"
+                dataKey="primary"
+                strokeWidth={2}
+                stroke={CHART_COLORS.firstLineColor}
+                fillOpacity={0.2}
+                fill="url(#firstColor)"
+                activeDot={{ r: 7 }}
+              />
+              {!this.props.isPrimaryOnly && (
+                <Area
+                  type="monotone"
+                  dataKey="secondary"
+                  strokeWidth={2}
+                  stroke={CHART_COLORS.secondLineColor}
+                  fillOpacity={0.2}
+                  fill="url(#secondColor)"
+                  activeDot={{ r: 7 }}
+                />
+              )}
+            </AreaChart>
+          </ResponsiveContainer>
+        ) : (
+          <div className="loadingChart">Fetching data ...</div>
+        )}
       </div>
     );
   }
