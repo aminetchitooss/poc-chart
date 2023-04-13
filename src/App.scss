@@ -281,3 +281,23 @@ $dotSize: 11px;
   width: 100%;
   background-color: transparent !important;
 }
+// TODO to be deleted This only to showcase one chart line
+.scale {
+  opacity: 0;
+  // width: 5px;
+}
+
+.legendFrame {
+  position: relative;
+  left: 170px;
+}
+@media screen and (max-width: 920px) {
+  .legendFrame {
+    left: -127px;
+  }
+}
+@media screen and (max-width: 740px) {
+  .legendFrame {
+    left: 0;
+  }
+}

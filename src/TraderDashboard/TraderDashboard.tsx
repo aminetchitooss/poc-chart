@@ -29,7 +29,7 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
   async componentDidMount(): Promise<void> {
     const data = await getReporting();
     this.setState({ reportingData: data });
-    this.setChartData(data, ParameterKeys.ORDERS_LOST, ParameterKeys.ORDERS_WON);
+    this.setChartData(data, ParameterKeys.BIDS);
   }
 
   setChartData(reportingData: CartMesure, primaryParameter: ParameterKeys, secondaryParameter?: ParameterKeys) {

@@ -15,9 +15,9 @@ export interface ParametersData {
 }
 
 export const defaultParameters: ParametersData[] = [
-  { key: ParameterKeys.ORDERS_LOST, label: 'Vehicles lost', value: 0 },
-  { key: ParameterKeys.ORDERS_WON, label: 'Vehicles awarded', value: 0 },
-  { key: ParameterKeys.LOT_BIDDED, label: 'Vehicles offered', value: 0 },
+  // { key: ParameterKeys.ORDERS_LOST, label: 'Vehicles lost', value: 0 },
+  // { key: ParameterKeys.ORDERS_WON, label: 'Vehicles awarded', value: 0 },
+  // { key: ParameterKeys.LOT_BIDDED, label: 'Vehicles offered', value: 0 },
   { key: ParameterKeys.BIDS, label: 'Offers sent', value: 0 }
 ];
 
