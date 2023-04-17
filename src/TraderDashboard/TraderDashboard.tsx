@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Chart, { ChartData } from './Chart/Chart';
+import Chart, { CHART_COLORS, ChartData } from './Chart/Chart';
 import Filter from './Filters';
 import Legend, { LegendData } from './Legend';
 import Parameters, { ParameterKeys, ParametersData, defaultParameters } from './Parameters';
@@ -42,9 +42,9 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
       }))
       .map(d => {
         if (primaryParameter == d.key) {
-          return { ...d, isActive: true, color: '#0BCBFB' };
+          return { ...d, isActive: true, color: CHART_COLORS.firstLineColor };
         } else if (secondaryParameter == d.key) {
-          return { ...d, isActive: true, color: '#644AF3' };
+          return { ...d, isActive: true, color: CHART_COLORS.secondLineColor };
         }
         return d;
       });

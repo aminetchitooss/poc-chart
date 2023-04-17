@@ -3,7 +3,7 @@ import { ResponsiveContainer, AreaChart, XAxis, YAxis, Area, Tooltip, CartesianG
 import { format, parseISO } from 'date-fns';
 import { TooltipProps } from 'recharts';
 
-const CHART_COLORS = {
+export const CHART_COLORS = {
   firstLineColor: '#0BCBFB',
   secondLineColor: '#644AF3',
   GridLine: '#EDF2F8',

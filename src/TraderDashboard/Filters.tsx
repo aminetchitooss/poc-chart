@@ -1,9 +1,10 @@
 import * as React from 'react';
 
+export type PropsWithChildren<P> = P & { children?: React.ReactNode };
 interface FilterProps {
   chooseFilter: (_id: number) => void;
 }
-export default class Filter extends React.Component<FilterProps, any> {
+export default class Filter extends React.Component<PropsWithChildren<FilterProps>, any> {
   constructor(props: FilterProps) {
     super(props);
   }
@@ -17,6 +18,7 @@ export default class Filter extends React.Component<FilterProps, any> {
         <div className="container">
           <div className="filterFrame__sub" onClick={() => this.selectFilter()}>
             ----- Filter area -----
+            {this.props.children}
           </div>
         </div>
       </div>

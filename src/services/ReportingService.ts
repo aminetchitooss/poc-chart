@@ -1,6 +1,17 @@
 import axios from 'axios';
 import { ParameterKeys } from '../TraderDashboard/Parameters';
 
+interface Mesure {
+  date: string;
+  value: number;
+}
+
+type EnumToObject<T> = {
+  [Property in ParameterKeys]: T;
+};
+
+export type CartMesure = EnumToObject<Mesure[]>;
+
 export const axiosInstance = axios.create({
   baseURL: 'https://strong-pig-76.deno.dev',
   params: { api_key: 'API_KEY' }
@@ -74,15 +85,3 @@ export const getReporting = async (): Promise<CartMesure> => {
   // const resp = await axiosInstance.get(``);
   // return resp.data;
 };
-
-export interface Mesure {
-  date: string;
-  value: number;
-}
-
-export interface CartMesure {
-  [ParameterKeys.BIDS]: Mesure[];
-  [ParameterKeys.LOT_BIDDED]: Mesure[];
-  [ParameterKeys.ORDERS_WON]: Mesure[];
-  [ParameterKeys.ORDERS_LOST]: Mesure[];
-}
