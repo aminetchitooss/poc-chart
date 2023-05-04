@@ -21,7 +21,7 @@
 
 .legendText {
   order: 1;
-  width: calc(100% - 550px);
+  width: calc(100% - 450px);
   flex-grow: 1;
   margin: 0;
   align-self: center;
@@ -38,34 +38,6 @@
   order: 2;
   min-width: 240px;
   justify-content: flex-end;
-}
-
-.scaleFrame {
-  color: #050b7f;
-  padding: 10px 1rem;
-  justify-self: flex-end;
-  width: 120px;
-  border-radius: 16px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 140%;
-  border: 2px solid transparent;
-  display: flex;
-  justify-content: space-between;
-
-  span:last-child {
-    font-size: 32px;
-    transform: rotate(90deg);
-  }
-
-  &.closed {
-    border-color: #050b7f;
-    span:last-child {
-      transform: rotate(270deg);
-      font-size: 32px;
-    }
-  }
 }
 
 .ParamsFrame {
@@ -174,17 +146,12 @@
     gap: 2rem;
     overflow-x: auto;
   }
-  .legendText {
-    width: calc(100% - 200px);
-    flex-grow: 1;
-  }
   .ParamsFrame {
     order: 3;
 
     article {
       flex-wrap: wrap;
       gap: 0;
-      display: block; // TODO delete this afte uncommenting the rest of Params
     }
     h3 {
       margin-bottom: 4px;
@@ -195,9 +162,6 @@
       line-height: 29px;
     }
   }
-  .scale {
-    order: 2;
-  }
   .chart {
     order: 4;
     width: 100%;
@@ -205,11 +169,6 @@
   .legendFrame {
     order: 5;
     justify-content: flex-start;
-  }
-
-  .chart,
-  .ParamsFrame {
-    min-width: 800px;
   }
 }
 $dotSize: 11px;
@@ -246,68 +205,5 @@ $dotSize: 11px;
       background-color: currentColor;
       border-radius: 50%;
     }
-  }
-}
-
-.scale {
-  position: relative;
-  order: 3;
-  cursor: pointer;
-}
-.scaleList {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  top: 0;
-  border: 2px solid #050b7f;
-  border-radius: 16px;
-
-  span {
-    background-color: white;
-    padding: 10px;
-    border-bottom: 1px solid #444d58;
-    font-size: 13px;
-    color: #373e47;
-    cursor: pointer;
-
-    &:last-child {
-      border-bottom-left-radius: 14px;
-      border-bottom-right-radius: 14px;
-    }
-
-    &.active,
-    &:hover {
-      background-color: #e6e6e6;
-      color: black;
-      font-weight: bold;
-    }
-  }
-}
-
-.emptySpan {
-  height: 41px;
-  width: 100%;
-  background-color: transparent !important;
-}
-// TODO to be deleted This only to showcase one chart line
-.scale {
-  opacity: 0;
-  // width: 5px;
-}
-
-.legendFrame {
-  position: relative;
-  left: 170px;
-}
-@media screen and (max-width: 920px) {
-  .legendFrame {
-    left: -127px;
-  }
-}
-@media screen and (max-width: 740px) {
-  .legendFrame {
-    left: 0;
   }
 }

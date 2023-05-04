@@ -3,7 +3,6 @@ import Chart, { CHART_COLORS, ChartData } from './Chart/Chart';
 import Filter from './Filters';
 import Legend, { LegendData } from './Legend';
 import Parameters, { ParameterKeys, ParametersData, defaultParameters } from './Parameters';
-import Scale, { SCALE_CHOICE } from './Scale';
 import { CartMesure, getReporting } from '../services/ReportingService';
 
 interface TraderDashboardState {
@@ -65,10 +64,6 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
     console.log('Root', id);
   }
 
-  selectScale(scale: SCALE_CHOICE) {
-    console.log('Root scale', scale);
-  }
-
   chooseFilter(id: number) {
     console.log('Root Filter', id);
   }
@@ -80,7 +75,6 @@ export default class TraderDashboard extends React.Component<any, TraderDashboar
         <div className="container chartFrame">
           <h3 className="legendText">{this.state.legendData.map(d => d.label).join(' - ')} </h3>
           <Legend data={this.state.legendData} />
-          <Scale selectScale={this.selectScale} />
           <Parameters data={this.state.paramData} chooseParam={this.getDataByParam} />
           <Chart data={this.state.chartData} isPrimaryOnly={this.state.isPrimaryOnly} />
         </div>
