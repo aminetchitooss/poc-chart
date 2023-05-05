@@ -17,32 +17,28 @@ const AxisStyle = {
   fontSize: '14px'
 };
 
-interface DashboardProps {
+interface ChartProps {
   data: ChartData[];
   isPrimaryOnly: boolean;
+  Y_AxisMaxValue: number;
 }
-
-interface DashboardState {}
 
 export interface ChartData {
   date: string;
   primary: number;
   secondary: number;
 }
-export default class Chart extends React.Component<DashboardProps, DashboardState> {
-  constructor(props: DashboardProps) {
+export default class Chart extends React.Component<ChartProps, unknown> {
+  constructor(props: ChartProps) {
     super(props);
-    this.state = {
-      data: this.props.data
-    };
   }
 
   render() {
     return (
       <div className="chart">
         {this.props.data.length > 0 ? (
-          <ResponsiveContainer width="100%" height={370}>
-            <AreaChart data={this.props.data} margin={{ top: 0, left: -30, right: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={390}>
+            <AreaChart data={this.props.data} margin={{ top: 0, left: -10, right: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="firstColor" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="50%" stopColor={CHART_COLORS.firstLineColor} stopOpacity={0.8} />
@@ -57,7 +53,7 @@ export default class Chart extends React.Component<DashboardProps, DashboardStat
               </defs>
               <CartesianGrid stroke={CHART_COLORS.GridLine} strokeWidth={2} />
 
-              <YAxis tick={AxisStyle} />
+              <YAxis tick={AxisStyle} domain={[0, this.props.Y_AxisMaxValue]} />
 
               <XAxis
                 tick={AxisStyle}

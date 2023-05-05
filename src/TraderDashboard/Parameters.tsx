@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { CHART_COLORS } from './Chart/Chart';
 
 export enum ParameterKeys {
   BIDS = 'bids',
@@ -6,6 +7,14 @@ export enum ParameterKeys {
   ORDERS_WON = 'ordersWon',
   ORDERS_LOST = 'ordersLost'
 }
+
+export const PARAMETER_LIST: ParametersData[] = [
+  { key: ParameterKeys.ORDERS_LOST, label: 'Vehicles lost', value: 0 },
+  { key: ParameterKeys.ORDERS_WON, label: 'Vehicles awarded', value: 0 },
+  { key: ParameterKeys.LOT_BIDDED, label: 'Vehicles offered', value: 0 },
+  { key: ParameterKeys.BIDS, label: 'Offers sent', value: 0 }
+];
+
 export interface ParametersData {
   key: ParameterKeys;
   label: string;
@@ -14,47 +23,54 @@ export interface ParametersData {
   color?: string;
 }
 
-export const defaultParameters: ParametersData[] = [
-  { key: ParameterKeys.ORDERS_LOST, label: 'Vehicles lost', value: 0 },
-  { key: ParameterKeys.ORDERS_WON, label: 'Vehicles awarded', value: 0 },
-  { key: ParameterKeys.LOT_BIDDED, label: 'Vehicles offered', value: 0 },
-  { key: ParameterKeys.BIDS, label: 'Offers sent', value: 0 }
-];
-
 interface ParametersProps {
   data: ParametersData[];
-  chooseParam: (_id: number) => void;
+  chooseParam: (primaryParameter: ParameterKeys, secondaryParameter?: ParameterKeys) => void;
 }
-export default class Parameters extends React.Component<ParametersProps, any> {
+
+export default class Parameters extends React.Component<ParametersProps, unknown> {
   constructor(props: ParametersProps) {
     super(props);
   }
 
-  selectParam(id: number) {
-    this.props.chooseParam(id);
-  }
+  selectParam(selectedIndex: number) {
+    const selectedParam: ParametersData = this.props.data[selectedIndex];
+    const currentActiveParams = this.props.data.filter(d => d.isActive);
 
-  render() {
-    return <div className="ParamsFrame">{this.props.data && this.props.data.map((item, i) => <ParameterCard key={i} data={item} />)}</div>;
-  }
-}
+    if (selectedParam.key === ParameterKeys.BIDS) return this.props.chooseParam(ParameterKeys.BIDS);
 
-interface ParameterCardProps {
-  data: ParametersData;
-}
-interface ParameterCardState {}
+    if (currentActiveParams.length === 1) {
+      if (currentActiveParams[0].key === selectedParam.key) return;
+      if (currentActiveParams[0].key === ParameterKeys.BIDS) return this.props.chooseParam(selectedParam.key);
+      return this.props.chooseParam(currentActiveParams[0].key, selectedParam.key);
+    }
 
-class ParameterCard extends React.Component<ParameterCardProps, ParameterCardState> {
-  constructor(props: ParameterCardProps) {
-    super(props);
+    if (currentActiveParams.some(p => p.key === selectedParam.key)) {
+      if (selectedParam.color === CHART_COLORS.firstLineColor) {
+        const currentSecondaryChoice = currentActiveParams.find(p => p.key !== selectedParam.key);
+        if (currentSecondaryChoice) return this.props.chooseParam(currentSecondaryChoice.key);
+      }
+      const currentPrimaryChoice = currentActiveParams.find(p => p.key !== selectedParam.key);
+      if (currentPrimaryChoice) return this.props.chooseParam(currentPrimaryChoice.key);
+    }
+
+    const currentPrimaryChoice = currentActiveParams.find(p => p.color === CHART_COLORS.firstLineColor);
+    if (currentPrimaryChoice) return this.props.chooseParam(currentPrimaryChoice.key, selectedParam.key);
   }
 
   render() {
     return (
-      <article className={this.props.data.isActive ? 'active' : undefined}>
-        <h3>{this.props.data.label}</h3>
-        <p style={{ color: this.props.data.color }}>{this.props.data.value}</p>
-      </article>
+      <div className="ParamsFrame">
+        {this.props.data &&
+          this.props.data.map((item, index) => {
+            return (
+              <article key={index} className={item.isActive ? 'active' : undefined} onClick={() => this.selectParam(index)}>
+                <h3>{item.label}</h3>
+                <p style={{ color: item.color }}>{item.value}</p>
+              </article>
+            );
+          })}
+      </div>
     );
   }
 }
