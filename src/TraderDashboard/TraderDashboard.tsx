@@ -3,7 +3,7 @@ import Chart, { CHART_COLORS, ChartData } from './Chart/Chart';
 import Filter from './Filters';
 import Legend, { LegendData } from './Legend';
 import Parameters, { ParameterKeys, ParametersData, PARAMETER_LIST } from './Parameters';
-import { CartMesure as ChartMesure, getReporting } from '../services/ReportingService';
+import { CartMesure as ChartMesure, getReportingData, getXAxisFormatterData } from '../services/ReportingService';
 
 interface TraderDashboardState {
   reportingData: ChartMesure | null;
@@ -12,6 +12,7 @@ interface TraderDashboardState {
   paramData: ParametersData[];
   isPrimaryOnly: boolean;
   Y_AxisMaxValue: number;
+  axisFormatter: AxisFormatter;
 }
 
 export default class TraderDashboard extends React.Component<unknown, TraderDashboardState> {
@@ -23,15 +24,17 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
       chartData: [],
       paramData: [],
       isPrimaryOnly: false,
-      Y_AxisMaxValue: 0
+      Y_AxisMaxValue: 0,
+      axisFormatter: {maxDate: '', minDate: '', minTickGap: 0, formatFunction: () => ''},
     };
     this.chooseFilter = this.chooseFilter.bind(this);
     this.setDataByParam = this.setDataByParam.bind(this);
   }
 
   async componentDidMount(): Promise<void> {
-    const data = await getReporting();
-    this.setState({ reportingData: data });
+    const data = await getReportingData(5);
+    const axisFormatter = getXAxisFormatterData(data);
+    this.setState({ reportingData: data, axisFormatter: axisFormatter });
     this.setChartData(data, ParameterKeys.BIDS);
   }
 
@@ -81,7 +84,12 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
           <h3 className="legendText">{this.state.legendData.map(d => d.label).join(' - ')} </h3>
           <Legend data={this.state.legendData} />
           <Parameters data={this.state.paramData} chooseParam={this.setDataByParam} />
-          <Chart Y_AxisMaxValue={this.state.Y_AxisMaxValue} data={this.state.chartData} isPrimaryOnly={this.state.isPrimaryOnly} />
+          <Chart 
+                Y_AxisMaxValue={this.state.Y_AxisMaxValue} 
+                data={this.state.chartData} 
+                isPrimaryOnly={this.state.isPrimaryOnly} 
+                axisFormatter={this.state.axisFormatter}
+                />
         </div>
       </div>
     );

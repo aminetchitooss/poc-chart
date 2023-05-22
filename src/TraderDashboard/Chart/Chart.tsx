@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, parse } from 'date-fns';
 import { TooltipProps } from 'recharts';
 
 export const CHART_COLORS = {
@@ -17,10 +17,12 @@ const AxisStyle = {
   fontSize: '14px'
 };
 
+
 interface ChartProps {
   data: ChartData[];
   isPrimaryOnly: boolean;
   Y_AxisMaxValue: number;
+  axisFormatter: AxisFormatter;
 }
 
 export interface ChartData {
@@ -28,6 +30,7 @@ export interface ChartData {
   primary: number;
   secondary: number;
 }
+
 export default class Chart extends React.Component<ChartProps, unknown> {
   constructor(props: ChartProps) {
     super(props);
@@ -55,17 +58,26 @@ export default class Chart extends React.Component<ChartProps, unknown> {
 
               <YAxis tick={AxisStyle} domain={[0, this.props.Y_AxisMaxValue]} />
 
+              {/* UC2 */}
               <XAxis
                 tick={AxisStyle}
                 dataKey="date"
                 tickLine={false}
                 axisLine={true}
-                tickFormatter={str => {
-                  const date = new Date(str);
-                  return format(date, 'MMM');
-                }}
-              />
-
+                interval={'preserveStartEnd'}
+                minTickGap={this.props.axisFormatter.minTickGap}
+                allowDuplicatedCategory={false}
+                tickFormatter={
+                  str => {
+                    const formater = this.props.axisFormatter.formatFunction(str, 0);
+                    const label =  format(new Date(str), formater);
+                    if(label.indexOf(' ')!== -1) {
+                      return label.split(' ')[0] + '<br>' + label.split(' ')[1];
+                    }
+                    return label;
+                  }}
+              /> 
+  
               {/* <Tooltip /> */}
               <Tooltip cursor={{ stroke: '#444D58', strokeWidth: 2 }} content={<CustomTooltip />} />
               <Area
