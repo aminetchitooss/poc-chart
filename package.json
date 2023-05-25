@@ -20,7 +20,8 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.0",
-    "recharts": "^2.4.3"
+    "recharts": "^2.4.3",
+    "screenfull": "^5.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

@@ -4,6 +4,7 @@ import Filter from './Filters';
 import Legend, { LegendData } from './Legend';
 import Parameters, { ParameterKeys, ParametersData, PARAMETER_LIST } from './Parameters';
 import { CartMesure as ChartMesure, getReporting } from '../services/ReportingService';
+import LandscapeToggle from './LandscapeToggle';
 
 interface TraderDashboardState {
   reportingData: ChartMesure | null;
@@ -12,6 +13,7 @@ interface TraderDashboardState {
   paramData: ParametersData[];
   isPrimaryOnly: boolean;
   Y_AxisMaxValue: number;
+  isDataError: boolean;
 }
 
 export default class TraderDashboard extends React.Component<unknown, TraderDashboardState> {
@@ -23,6 +25,7 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
       chartData: [],
       paramData: [],
       isPrimaryOnly: false,
+      isDataError: false,
       Y_AxisMaxValue: 0
     };
     this.chooseFilter = this.chooseFilter.bind(this);
@@ -31,8 +34,7 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
 
   async componentDidMount(): Promise<void> {
     const data = await getReporting();
-    this.setState({ reportingData: data });
-    this.setChartData(data, ParameterKeys.BIDS);
+    this.updateData(data);
   }
 
   setChartData(reportingData: ChartMesure, primaryParameter: ParameterKeys, secondaryParameter?: ParameterKeys) {
@@ -65,6 +67,15 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
     });
   }
 
+  updateData(data: ChartMesure): void {
+    try {
+      this.setChartData(data, ParameterKeys.BIDS);
+      this.setState({ reportingData: data });
+    } catch (error) {
+      this.setState({ isDataError: true, chartData: [] });
+    }
+  }
+
   setDataByParam(primaryParameter: ParameterKeys, secondaryParameter?: ParameterKeys) {
     if (this.state.reportingData) this.setChartData(this.state.reportingData, primaryParameter, secondaryParameter);
   }
@@ -78,10 +89,16 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
       <div className="traderDash">
         <Filter chooseFilter={this.chooseFilter} />
         <div className="container chartFrame">
+          <LandscapeToggle />
           <h3 className="legendText">{this.state.legendData.map(d => d.label).join(' - ')} </h3>
           <Legend data={this.state.legendData} />
           <Parameters data={this.state.paramData} chooseParam={this.setDataByParam} />
-          <Chart Y_AxisMaxValue={this.state.Y_AxisMaxValue} data={this.state.chartData} isPrimaryOnly={this.state.isPrimaryOnly} />
+          <Chart
+            Y_AxisMaxValue={this.state.Y_AxisMaxValue}
+            isError={this.state.isDataError}
+            data={this.state.chartData}
+            isPrimaryOnly={this.state.isPrimaryOnly}
+          />
         </div>
       </div>
     );

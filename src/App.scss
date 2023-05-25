@@ -11,12 +11,15 @@
 .chartFrame {
   background-color: white;
   border-radius: 16px;
-  margin-top: 2rem !important;
+  margin-top: 40px !important;
   padding: 2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 2rem 0.5rem;
   min-height: 520px;
+  padding-top: 40px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  position: relative;
 }
 
 .legendText {
@@ -60,11 +63,13 @@
       border-color: #c5d0de;
       background-color: #edf2f8;
       box-shadow: 0px 0px 0px 2px #cbd3e0;
+
       h3 {
         color: #050b7f;
       }
     }
   }
+
   h3 {
     font-weight: 600;
     font-size: 14px;
@@ -73,21 +78,30 @@
     margin: 0 0 4px;
     color: #6d7988;
   }
+
   p {
     font-weight: 700;
     font-size: 32px;
     line-height: 39px;
     color: #444d58;
   }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .chart {
-  min-height: 334px;
+  min-height: 260px;
   // background-color: #3b3b3b;
   flex-grow: 1;
   order: 5;
   width: calc(100% - 250px);
 }
+
 .loadingChart {
   height: 100%;
   width: 100%;
@@ -95,13 +109,34 @@
   align-items: center;
   justify-content: center;
 }
+
+.landscape-wrapper {
+  display: none;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+.landscape {
+  border: none;
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: #050b7f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (max-width: 920px) {
   .chartFrame {
     gap: 1rem;
   }
+
   .legendText {
     width: 100%;
   }
+
   .ParamsFrame {
     order: 2;
     flex-direction: row;
@@ -115,6 +150,7 @@
       align-items: center;
       gap: 0.5rem;
       padding: 5px 0.5rem;
+
       &.active {
         // border-width: 2px;
         box-shadow: 0px 0px 0px 2px #cbd3e0;
@@ -131,21 +167,47 @@
       line-height: 20px;
     }
   }
+
   .chart {
     order: 4;
     width: 100%;
+    &.underDoubleDigits {
+      position: relative;
+      left: -20px;
+      .recharts-responsive-container {
+        width: calc(100% + 20px) !important;
+      }
+    }
   }
+
   .legendFrame {
     order: 5;
     justify-content: flex-start;
+  }
+
+  .landscape-wrapper {
+    display: block;
   }
 }
 
 @media screen and (max-width: 740px) {
   .chartFrame {
-    gap: 2rem;
+    gap: 1rem;
     overflow-x: auto;
+    width: calc(100% - 2rem);
+    padding: 1.5rem 1rem;
+    min-height: 440px;
   }
+  @media screen and (max-height: 700px) {
+    .chartFrame {
+      margin-top: 2rem !important;
+    }
+    .legendText {
+      font-size: 20px;
+      line-height: 26px;
+    }
+  }
+
   .ParamsFrame {
     order: 3;
 
@@ -153,22 +215,35 @@
       flex-wrap: wrap;
       gap: 0;
     }
+
     h3 {
       margin-bottom: 4px;
     }
+
     p {
       font-weight: 700;
       font-size: 24px;
       line-height: 29px;
+      margin: 0;
     }
   }
+
   .chart {
     order: 4;
     width: 100%;
   }
+
   .legendFrame {
     order: 5;
     justify-content: flex-start;
+  }
+}
+
+@media screen and (min-width: 400px) and (max-width: 420px) {
+  .ParamsFrame {
+    article {
+      padding: 5px 1rem;
+    }
   }
 }
 $dotSize: 11px;
@@ -192,7 +267,7 @@ $dotSize: 11px;
     line-height: 1;
     display: inline-block;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 15px;
 
     &::before {

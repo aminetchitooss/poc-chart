@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Area, Tooltip, CartesianGrid } from 'recharts';
-import { format, parseISO } from 'date-fns';
-import { TooltipProps } from 'recharts';
+import { format } from 'date-fns';
+import { TraderTooltip } from '../TraderToolTip';
 
 export const CHART_COLORS = {
   firstLineColor: '#0BCBFB',
@@ -20,24 +20,30 @@ const AxisStyle = {
 interface ChartProps {
   data: ChartData[];
   isPrimaryOnly: boolean;
+  isError: boolean;
   Y_AxisMaxValue: number;
 }
-
+interface ChartState {
+  isSmallScreen: boolean;
+}
 export interface ChartData {
   date: string;
   primary: number;
   secondary: number;
 }
-export default class Chart extends React.Component<ChartProps, unknown> {
+export default class Chart extends React.Component<ChartProps, ChartState> {
   constructor(props: ChartProps) {
     super(props);
+    this.state = {
+      isSmallScreen: window.matchMedia('(max-height: 700px)').matches
+    };
   }
 
   render() {
     return (
-      <div className="chart">
-        {this.props.data.length > 0 ? (
-          <ResponsiveContainer width="100%" height={390}>
+      <div className={this.props.Y_AxisMaxValue.toString().length <= 2 ? 'chart underDoubleDigits' : 'chart'}>
+        {this.props.data?.length > 0 ? (
+          <ResponsiveContainer width="100%" height={this.state.isSmallScreen ? 260 : 410}>
             <AreaChart data={this.props.data} margin={{ top: 0, left: -10, right: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="firstColor" x1="0" y1="0" x2="0" y2="1">
@@ -66,8 +72,7 @@ export default class Chart extends React.Component<ChartProps, unknown> {
                 }}
               />
 
-              {/* <Tooltip /> */}
-              <Tooltip cursor={{ stroke: '#444D58', strokeWidth: 2 }} content={<CustomTooltip />} />
+              <Tooltip cursor={{ stroke: '#444D58', strokeWidth: 2 }} content={<TraderTooltip />} />
               <Area
                 type="monotone"
                 dataKey="primary"
@@ -90,27 +95,14 @@ export default class Chart extends React.Component<ChartProps, unknown> {
               )}
             </AreaChart>
           </ResponsiveContainer>
+        ) : this.props.isError ? (
+          <div className="loadingChart">Error in fetching data</div>
+        ) : this.props.data.length == 0 ? (
+          <div className="loadingChart">No data Found</div>
         ) : (
           <div className="loadingChart">Fetching data ...</div>
         )}
       </div>
     );
   }
-}
-
-function CustomTooltip({ active, payload, label }: TooltipProps<number, string>) {
-  if (active && payload && payload.length) {
-    return (
-      <div className="customTooltip">
-        <p className="customTooltip__label">{format(parseISO(label), 'd, MMMM yyyy')}</p>
-        {payload &&
-          payload.map((data, index) => (
-            <div className="customTooltip__data" style={{ color: data.color }} key={index.toString()}>
-              {data.value}
-            </div>
-          ))}
-      </div>
-    );
-  }
-  return null;
 }
