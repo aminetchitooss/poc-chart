@@ -112,9 +112,6 @@
 
 .landscape-wrapper {
   display: none;
-  position: absolute;
-  bottom: 15px;
-  right: 15px;
 }
 
 .landscape {
@@ -126,6 +123,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media screen and (max-width: 991px) {
+  .chartFrame,
+  .filterFrame > .container {
+    width: calc(100% - 2rem);
+    max-width: 100%;
+
+    .filter-mobile {
+      margin: 0;
+    }
+  }
 }
 
 @media screen and (max-width: 920px) {
@@ -171,6 +180,7 @@
   .chart {
     order: 4;
     width: 100%;
+    height: calc(100dvh - 450px);
     &.underDoubleDigits {
       position: relative;
       left: -20px;
@@ -183,10 +193,15 @@
   .legendFrame {
     order: 5;
     justify-content: flex-start;
+    flex-grow: 1;
   }
 
   .landscape-wrapper {
-    display: block;
+    order: 6;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
   }
 }
 
@@ -196,7 +211,7 @@
     overflow-x: auto;
     width: calc(100% - 2rem);
     padding: 1.5rem 1rem;
-    min-height: 440px;
+    min-height: 500px;
   }
   @media screen and (max-height: 700px) {
     .chartFrame {

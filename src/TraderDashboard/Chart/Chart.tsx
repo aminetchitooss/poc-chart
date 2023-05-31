@@ -23,15 +23,13 @@ interface ChartProps {
   isError: boolean;
   Y_AxisMaxValue: number;
 }
-interface ChartState {
-  isSmallScreen: boolean;
-}
+
 export interface ChartData {
   date: string;
   primary: number;
   secondary: number;
 }
-export default class Chart extends React.Component<ChartProps, ChartState> {
+export default class Chart extends React.Component<ChartProps, unknown> {
   constructor(props: ChartProps) {
     super(props);
     this.state = {
@@ -43,7 +41,7 @@ export default class Chart extends React.Component<ChartProps, ChartState> {
     return (
       <div className={this.props.Y_AxisMaxValue.toString().length <= 2 ? 'chart underDoubleDigits' : 'chart'}>
         {this.props.data?.length > 0 ? (
-          <ResponsiveContainer width="100%" height={this.state.isSmallScreen ? 260 : 410}>
+          <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={this.props.data} margin={{ top: 0, left: -10, right: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="firstColor" x1="0" y1="0" x2="0" y2="1">
