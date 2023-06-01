@@ -3,7 +3,15 @@ import Chart, { CHART_COLORS, ChartData } from './Chart/Chart';
 import Filter from './Filters';
 import Legend, { LegendData } from './Legend';
 import Parameters, { ParameterKeys, ParametersData, PARAMETER_LIST } from './Parameters';
-import { CartMesure as ChartMesure, getReporting } from '../services/ReportingService';
+import {
+  CartMesure as ChartMesure,
+  getReporting,
+  getReporting_UC1,
+  getReporting_UC2,
+  getReporting_UC3,
+  getReporting_UC4,
+  getReporting_UC5
+} from '../services/ReportingService';
 import LandscapeToggle from './LandscapeToggle';
 
 interface TraderDashboardState {
@@ -33,7 +41,7 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
   }
 
   async componentDidMount(): Promise<void> {
-    const data = await getReporting();
+    const data = await getReporting_UC1();
     this.updateData(data);
   }
 
