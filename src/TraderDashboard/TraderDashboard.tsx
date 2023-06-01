@@ -41,7 +41,7 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
   }
 
   async componentDidMount(): Promise<void> {
-    const data = await getReporting_UC1();
+    const data = await getReporting_UC2();
     this.updateData(data);
   }
 
@@ -64,7 +64,10 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
     if (!!secondaryParameter) chartData = chartData.map((d, index) => ({ ...d, secondary: reportingData[secondaryParameter][index].value }));
 
     const keys: ParameterKeys[] = [primaryParameter, ...(!!secondaryParameter ? [secondaryParameter] : [])]; // Object.keys(reportingData) as ParameterKeys[];
-    const Y_AxisMaxValue = Math.round(Math.max(...keys.reduce((a: number[], k) => [...a, ...reportingData[k].map(d => d.value)], [])) * 1.1);
+    const Y_AxisMaxValue =
+      keys.length === 1 && reportingData[keys[0]].length == 1
+        ? reportingData[keys[0]][0].value * 2
+        : Math.ceil(Math.max(...keys.reduce((a: number[], k) => [...a, ...reportingData[k].map(d => d.value)], [])) * 1.1);
 
     this.setState({
       legendData: paramData.filter(d => d.isActive),
