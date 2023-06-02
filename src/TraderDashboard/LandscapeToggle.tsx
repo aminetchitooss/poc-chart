@@ -4,11 +4,9 @@ import * as screenfull from 'screenfull';
 interface LandscapeToggleState {
   isFullscreenReady: boolean;
 }
-interface LandscapeToggleProps {
-  handleScreenChange: (_isFullScreen: boolean) => void;
-}
-export default class LandscapeToggle extends React.Component<LandscapeToggleProps, LandscapeToggleState> {
-  constructor(props: LandscapeToggleProps) {
+
+export default class LandscapeToggle extends React.Component<unknown, LandscapeToggleState> {
+  constructor(props: unknown) {
     super(props);
     this.state = {
       isFullscreenReady: true
@@ -19,8 +17,33 @@ export default class LandscapeToggle extends React.Component<LandscapeToggleProp
     if (screenfull.isEnabled) {
       window.addEventListener('fullscreenchange', () => {
         this.setState({ isFullscreenReady: !screenfull.isFullscreen });
-        this.props.handleScreenChange(screenfull.isFullscreen);
+        this.handleTransition();
       });
+    }
+  }
+
+  handleTransition() {
+    const traderDashContainer = document.querySelector('#traderDashContainer')!;
+    const chartContainer = document.querySelector('#chartContainer')!;
+    if (screenfull.isFullscreen) {
+      if (!document.startViewTransition) {
+        chartContainer.classList.add('fullscreen');
+        return;
+      }
+
+      traderDashContainer.style.viewTransitionName = 'chartContainer';
+
+      const transition = document.startViewTransition(() => {
+        traderDashContainer.style.viewTransitionName = null;
+        chartContainer.style.viewTransitionName = 'chartContainer';
+        chartContainer.classList.add('fullscreen');
+      });
+
+      transition.finished.finally(() => {
+        chartContainer.style.viewTransitionName = null;
+      });
+    } else {
+      chartContainer.classList.remove('fullscreen');
     }
   }
 
