@@ -13,6 +13,7 @@ import {
   getReporting_UC5
 } from '../services/ReportingService';
 import LandscapeToggle from './LandscapeToggle';
+import { format } from 'date-fns';
 
 interface TraderDashboardState {
   reportingData: ChartMesure | null;
@@ -41,7 +42,7 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
   }
 
   async componentDidMount(): Promise<void> {
-    const data = await getReporting_UC1();
+    const data = await getReporting_UC4();
     this.updateData(data);
   }
 
@@ -69,10 +70,11 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
         ? reportingData[keys[0]][0].value * 2
         : Math.ceil(Math.max(...keys.reduce((a: number[], k) => [...a, ...reportingData[k].map(d => d.value)], [])) * 1.1);
 
+    const tt = chartData.map(res => ({ ...res, dateToShow: format(new Date(res.date), 'MMM') }));
     this.setState({
       legendData: paramData.filter(d => d.isActive),
       paramData,
-      chartData,
+      chartData: tt,
       Y_AxisMaxValue,
       isPrimaryOnly: !secondaryParameter
     });
@@ -97,7 +99,7 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
 
   render() {
     return (
-      <div id="traderDashContainer" className="traderDash">
+      <div className="traderDash">
         <Filter chooseFilter={this.chooseFilter} />
         <div id="chartContainer" className="container chartFrame">
           <LandscapeToggle />

@@ -23,28 +23,9 @@ export default class LandscapeToggle extends React.Component<unknown, LandscapeT
   }
 
   handleTransition() {
-    const traderDashContainer = document.querySelector('#traderDashContainer')!;
-    const chartContainer = document.querySelector('#chartContainer')!;
-    if (screenfull.isFullscreen) {
-      if (!document.startViewTransition) {
-        chartContainer.classList.add('fullscreen');
-        return;
-      }
-
-      traderDashContainer.style.viewTransitionName = 'chartContainer';
-
-      const transition = document.startViewTransition(() => {
-        traderDashContainer.style.viewTransitionName = null;
-        chartContainer.style.viewTransitionName = 'chartContainer';
-        chartContainer.classList.add('fullscreen');
-      });
-
-      transition.finished.finally(() => {
-        chartContainer.style.viewTransitionName = null;
-      });
-    } else {
-      chartContainer.classList.remove('fullscreen');
-    }
+    const chartContainer = document.querySelector('#chartContainer');
+    if (!chartContainer) return;
+    chartContainer.classList[screenfull.isFullscreen ? 'add' : 'remove']('fullscreen');
   }
 
   toggle() {
