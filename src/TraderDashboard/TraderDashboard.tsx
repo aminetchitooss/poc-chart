@@ -13,6 +13,7 @@ import {
   getReporting_UC5
 } from '../services/ReportingService';
 import LandscapeToggle from './LandscapeToggle';
+import * as screenfull from 'screenfull';
 
 interface TraderDashboardState {
   reportingData: ChartMesure | null;
@@ -22,6 +23,7 @@ interface TraderDashboardState {
   isPrimaryOnly: boolean;
   Y_AxisMaxValue: number;
   isDataError: boolean;
+  isScreenFull: boolean;
 }
 
 export default class TraderDashboard extends React.Component<unknown, TraderDashboardState> {
@@ -34,14 +36,16 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
       paramData: [],
       isPrimaryOnly: false,
       isDataError: false,
-      Y_AxisMaxValue: 0
+      Y_AxisMaxValue: 0,
+      isScreenFull: screenfull.isFullscreen
     };
     this.chooseFilter = this.chooseFilter.bind(this);
     this.setDataByParam = this.setDataByParam.bind(this);
+    this.updateScreenfull = this.updateScreenfull.bind(this);
   }
 
   async componentDidMount(): Promise<void> {
-    const data = await getReporting_UC2();
+    const data = await getReporting_UC1();
     this.updateData(data);
   }
 
@@ -95,12 +99,17 @@ export default class TraderDashboard extends React.Component<unknown, TraderDash
     console.log('Root Filter', id);
   }
 
+  updateScreenfull(isScreenFull: boolean) {
+    console.log('Root toggle landscape', isScreenFull);
+    this.setState({ isScreenFull });
+  }
+
   render() {
     return (
       <div className="traderDash">
         <Filter chooseFilter={this.chooseFilter} />
-        <div className="container chartFrame">
-          <LandscapeToggle />
+        <div className={`container chartFrame ${this.state.isScreenFull ? 'fullscreen' : ''}`}>
+          <LandscapeToggle handleScreenChange={this.updateScreenfull} />
           <h3 className="legendText">{this.state.legendData.map(d => d.label).join(' - ')} </h3>
           <Legend data={this.state.legendData} />
           <Parameters data={this.state.paramData} chooseParam={this.setDataByParam} />

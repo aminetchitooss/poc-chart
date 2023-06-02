@@ -4,10 +4,12 @@ import * as screenfull from 'screenfull';
 interface LandscapeToggleState {
   isFullscreenReady: boolean;
 }
-
-export default class LandscapeToggle extends React.Component<unknown, LandscapeToggleState> {
-  constructor() {
-    super(undefined);
+interface LandscapeToggleProps {
+  handleScreenChange: (_isFullScreen: boolean) => void;
+}
+export default class LandscapeToggle extends React.Component<LandscapeToggleProps, LandscapeToggleState> {
+  constructor(props: LandscapeToggleProps) {
+    super(props);
     this.state = {
       isFullscreenReady: true
     };
@@ -15,8 +17,9 @@ export default class LandscapeToggle extends React.Component<unknown, LandscapeT
 
   componentDidMount(): void {
     if (screenfull.isEnabled) {
-      screenfull.on('change', () => {
+      window.addEventListener('fullscreenchange', () => {
         this.setState({ isFullscreenReady: !screenfull.isFullscreen });
+        this.props.handleScreenChange(screenfull.isFullscreen);
       });
     }
   }

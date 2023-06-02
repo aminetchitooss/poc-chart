@@ -20,6 +20,16 @@
   padding-top: 40px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   position: relative;
+
+  &.fullscreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100vw;
+    margin: 0 !important;
+    border-radius: 0;
+  }
 }
 
 .legendText {
@@ -141,6 +151,11 @@
   .chartFrame {
     gap: 16px;
   }
+  .chartFrame.fullscreen {
+    .chart {
+      height: initial;
+    }
+  }
 
   .legendText {
     width: 100%;
@@ -159,6 +174,7 @@
       align-items: center;
       gap: 8px;
       padding: 5px 8px;
+      // max-height: 32px;
 
       &.active {
         // border-width: 2px;
@@ -229,6 +245,7 @@
     article {
       flex-wrap: wrap;
       gap: 0;
+      // max-height: initial;
     }
 
     h3 {
